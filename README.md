@@ -96,3 +96,109 @@ docs: update readme file (after changing document)
 ```
 
 **\*Note**: You can not push the code to main branch directly. After completeing you feature branch code you have to open a **Pull Request**. And then your team leader or collegue will review the code and merge it to the main branch
+
+To switch another branch:
+
+1. See your available branches
+2. Switch to the branch
+3. The Classic Way:
+
+```
+git branch
+git switch <branch-name>
+git checkout <branch-name>
+```
+
+What if Git blocks your switch?
+
+If you have uncommitted changes in your current branch, Git might block you from switching to prevent you from losing your work. You have two ways to handle this:
+
+Option A: Commit your work. Save your progress before moving
+
+```
+git add .
+git commit -m "WIP: save progress"
+```
+
+Option B: Stash your work. Stash temporarily hides your changes so you can switch branches without committing unfinished work.
+
+```
+git stash                 # Temporarily hide changes
+git switch <branch-name>  # Switch to the other branch
+# ... do your work ...
+git switch -              # Switch back (the dash returns to your previous branch)
+git stash pop             # Bring your hidden changes back
+```
+
+To check if your branch has been safely merged into your target branch (usually main or develop), you use specific flags with the git branch command.
+
+1. Switch to your main branch
+2. List all fully merged branches
+3. List unmerged branches
+
+```
+git switch main
+git branch --merged # if your feature branch is on this list, you can safely delete it using git branch -d
+git branch --no-merged # If your branch is on this list, deleting it requires the force command: git branch -D
+```
+
+Clean or delete branch:
+To cleanly delete a branch, you must first switch to a different branch (like main) because Git will not let you delete the branch you are currently standing on.
+
+1. Switch to a different branch
+2. Delete the branch locally
+3. Delete the branch on the remote server (GitHub/GitLab)
+4. Clean up your local branch list
+
+```
+
+git switch main
+git branch -d <branch-name> # if the branch is fully merged (Safe delete)
+git branch -D <branch-name> # if the branch is NOT merged (Force delete—use this only if you want to permanently discard the work)
+git push origin --delete <branch-name>
+git fetch --prune
+
+```
+
+## Open a Pull Request
+
+You can open a Pull Request (PR) either directly on the GitHub website or directly inside your terminal using GitHub's official command-line tool.
+
+**_Method_** 1: On the GitHub Website (The Traditional Way)
+
+1. Push your branch to GitHub if you haven't already
+
+```
+git push -u origin <branch-name>
+```
+
+2. Go to your repository page on GitHub.
+3. Look for a yellow banner at the top that says "Your branch was recently pushed" and click the green "Compare & pull request" button.
+4. If you don't see the banner: Click the "Pull requests" tab -> click the green "New pull request" button -> select your feature branch from the dropdown menu.
+5. Add a clear title and description of your changes, then click "Create pull request".
+
+**_Method_** 2: Directly from your Terminal (The Fastest Way)
+To do this from the terminal, you need **GitHub CLI (gh)**, which is a official tool provided by GitHub.
+
+1. Install GitHub CLI (if you don't have it):
+
+```
+Mac: brew install gh
+Windows: winget install GitHub.cli
+Linux: sudo apt install gh
+```
+
+2. Log in to your GitHub account (only required the first time):
+
+```
+gh auth login
+```
+
+3. Create the PR instantly by typing:
+
+```
+gh pr create --web
+```
+
+- This will instantly open your browser directly to the PR creation page with everything filled out for you.
+- Alternatively, run gh pr create --title "Your Title" --body "Your Description" to do it completely inside the terminal without ever opening a browser.
