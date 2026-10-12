@@ -45,3 +45,12 @@ Remove-Item -Rescurse -Force .git
 ---
 
 ## Git Pull
+
+We pull code from Git to synchronize our local computer with the latest changes made by other developers on the remote repository (like GitHub or GitLab):
+**\*Industry Tips**: before you start coding always try to pull the latest code so that you stay syncked with the lastest code
+
+```
+git pull origin main
+```
+
+---
