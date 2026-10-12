@@ -19,6 +19,16 @@ git push -u origin main
 
 ---
 
+## Update git push
+
+```
+git add .
+git commit "fix: refector the code"
+git push
+```
+
+---
+
 ## Check & remove Remote
 
 ```
