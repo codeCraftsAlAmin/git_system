@@ -202,3 +202,22 @@ gh pr create --web
 
 - This will instantly open your browser directly to the PR creation page with everything filled out for you.
 - Alternatively, run gh pr create --title "Your Title" --body "Your Description" to do it completely inside the terminal without ever opening a browser.
+
+## Git status
+
+We use the git status command to get our bearings and see exactly what is happening in our repository right now. It acts as a camera snapshot of your current workspace.
+It is one of the most frequently used commands because it answers three critical questions before you make your next move
+
+1. Where am I? (Branch Information)
+   It immediately tells you which branch you are currently standing on.
+
+2. How do I relate to the server? (Sync Status)
+   It checks your local branch against the remote server (like GitHub) and tells you if you are ahead (you have changes to push) or behind (you need to pull your teammates' changes)
+
+3. What have I changed? (The Three File States)
+   The core job of git status is to break your files down into three distinct, color-coded categories so you know what will happen when you commit:
+   • Untracked files (Usually Red): Brand new files you just created that Git isn't keeping track of yet.
+   • Changes not staged for commit (Usually Red): Existing files that you have modified or edited, but haven't officially prepped for saving yet.
+   • Changes to be committed (Usually Green): Files that you have run git add on. These are sitting in the staging area and are completely ready to be saved in your next snapshot
+
+**\*Pro Tip**: git status is completely safe to run anytime. It only reads information and will never alter, delete, or break your code. Developers habitually run it right before running a git add, right before a git commit, and right before a git push
