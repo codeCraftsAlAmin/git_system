@@ -9,17 +9,18 @@ A beginner-friendly reference guide designed to simplify Git and GitHub, streaml
 3. [Clone a Repository](#3-clone-a-repository)
 4. [Check and Remove Remote Repositories](#4-check-and-remove-remote-repositories)
 5. [Remove Git Tracking](#5-remove-git-tracking)
-6. [Pull the Latest Changes](#6-pull-the-latest-changes)
-7. [Git Branches](#7-git-branches)
-8. [Commit Message Conventions](#8-commit-message-conventions)
+6. [Commit Message Conventions](#6-commit-message-conventions)
+7. [Pull the Latest Changes](#7-pull-the-latest-changes)
+8. [Git Branches](#8-git-branches)
 9. [Switch Between Branches](#9-switch-between-branches)
-10. [Handle Uncommitted Changes](#10-handle-uncommitted-changes)
-11. [Check Merged and Unmerged Branches](#11-check-merged-and-unmerged-branches)
-12. [Delete Branches](#12-delete-branches)
-13. [Create a Pull Request](#13-create-a-pull-request)
-14. [Check Repository Status](#14-check-repository-status)
-15. [Quick Reference](#15-quick-reference)
-16. [Best Practices](#16-best-practices)
+10. [Merge a Feature Branch into Main](#10-merge-a-feature-branch-into-main)
+11. [Handle Uncommitted Changes](#11-handle-uncommitted-changes)
+12. [Check Merged and Unmerged Branches](#12-check-merged-and-unmerged-branches)
+13. [Delete Branches](#13-delete-branches)
+14. [Create a Pull Request](#14-create-a-pull-request)
+15. [Check Repository Status](#15-check-repository-status)
+16. [Quick Reference](#16-quick-reference)
+17. [Best Practices](#17-best-practices)
 
 ---
 
@@ -67,7 +68,9 @@ git commit -m "chore: initial project setup"
 git push -u origin main
 ```
 
-## **Note:** The `-u` flag sets the upstream branch. After the initial push, you can usually use `git push` and `git pull` without specifying the remote and branch.
+**Note:** The `-u` flag sets the upstream branch. After the initial push, you can usually use `git push` and `git pull` without specifying the remote and branch.
+
+---
 
 ## 2. Update and Push Changes
 
@@ -86,7 +89,8 @@ git push
 - `git add .` — Stages changes in the current directory and its subdirectories.
 - `git commit -m "..."` — Saves staged changes as a commit.
 - `git push` — Uploads local commits to the configured remote branch.
-  **Best Practice:** Make small, focused commits and use descriptive messages that explain the purpose of each change.
+
+**Best Practice:** Make small, focused commits and use descriptive messages that explain the purpose of each change.
 
 ---
 
@@ -183,12 +187,51 @@ Remove-Item -Recurse -Force .git
 ```
 
 **Warning:** This deletes the local `.git` directory, including the repository's commit history, branches, and configuration. Your project files normally remain intact, but the local Git history and metadata are removed.
+
 This command does not delete the remote GitHub repository.
+
 Only run this command when you intentionally want to remove the local Git repository.
 
 ---
 
-## 6. Pull the Latest Changes
+## 6. Commit Message Conventions
+
+A good commit message describes the purpose of a change clearly and concisely.
+
+A common convention is **Conventional Commits**.
+
+### Common Commit Types
+
+| Type       | Purpose                                             | Example                                 |
+| ---------- | --------------------------------------------------- | --------------------------------------- |
+| `feat`     | Introduce a new feature                             | `feat: add user login endpoint`         |
+| `fix`      | Fix a bug                                           | `fix: resolve database deletion error`  |
+| `refactor` | Restructure code without changing intended behavior | `refactor: simplify user service logic` |
+| `docs`     | Update documentation                                | `docs: update README`                   |
+| `test`     | Add or update tests                                 | `test: add user registration tests`     |
+| `chore`    | Maintenance and tooling changes                     | `chore: update dependencies`            |
+| `style`    | Formatting changes without affecting logic          | `style: format API route handlers`      |
+| `perf`     | Improve performance                                 | `perf: optimize database queries`       |
+
+### Examples
+
+```bash
+git commit -m "feat: add user registration endpoint"
+git commit -m "fix: handle invalid login credentials"
+git commit -m "refactor: simplify authentication service"
+git commit -m "docs: update installation instructions"
+```
+
+### Best Practices
+
+- Keep commit messages concise and descriptive.
+- Use the imperative mood, such as `add`, `fix`, or `update`.
+- Keep each commit focused on a logical change.
+- Avoid vague messages such as `update`, `changes`, or `final code`.
+
+---
+
+## 7. Pull the Latest Changes
 
 Use `git pull` to fetch changes from a remote repository and integrate them into your current branch.
 
@@ -209,13 +252,15 @@ git pull origin main
 ```
 
 If you are working on a feature branch, update `main` first and then integrate the latest changes into your feature branch according to your team's workflow.
+
 **Important:** Commit or stash local changes before pulling if they might conflict with incoming changes.
 
 ---
 
-## 7. Git Branches
+## 8. Git Branches
 
 Branches allow developers to work on features, bug fixes, and experiments independently without directly changing the main development line.
+
 Think of a branch as an independent workspace where you can develop and test changes before integrating them into the main codebase.
 
 ### Why Do We Use Branches?
@@ -228,13 +273,13 @@ Think of a branch as an independent workspace where you can develop and test cha
 
 ### Common Branch Naming Conventions
 
-| Purpose               | Example                 |
-| --------------------- | ----------------------- |
-| New feature           | `feature/jwt-auth`      |
-| Bug fix               | `fix/user-login-error`  |
-| Refactoring           | `refactor/async-db`     |
-| Documentation         | `docs/update-readme`    |
-| Urgent production fix | `hotfix/payment-error`  |
+| Purpose               | Example                |
+| --------------------- | ---------------------- |
+| New feature           | `feature/jwt-auth`     |
+| Bug fix               | `fix/user-login-error` |
+| Refactoring           | `refactor/async-db`    |
+| Documentation         | `docs/update-readme`   |
+| Urgent production fix | `hotfix/payment-error` |
 
 Follow your team's branch naming conventions if they differ from these examples.
 
@@ -277,43 +322,8 @@ In many professional projects, developers do not push feature work directly to `
 5. Request a code review.
 6. Resolve review comments and automated check failures.
 7. Merge the PR after approval and required checks pass.
-   **Note:** Follow your team's branch protection rules and contribution guidelines.
 
----
-
-## 8. Commit Message Conventions
-
-A good commit message describes the purpose of a change clearly and concisely.
-A common convention is **Conventional Commits**.
-
-### Common Commit Types
-
-| Type        | Purpose                                              | Example                                  |
-| ----------- | ---------------------------------------------------- | ---------------------------------------- |
-| `feat`      | Introduce a new feature                              | `feat: add user login endpoint`          |
-| `fix`       | Fix a bug                                            | `fix: resolve database deletion error`   |
-| `refactor`  | Restructure code without changing intended behavior  | `refactor: simplify user service logic`  |
-| `docs`      | Update documentation                                 | `docs: update README`                    |
-| `test`      | Add or update tests                                  | `test: add user registration tests`      |
-| `chore`     | Maintenance and tooling changes                      | `chore: update dependencies`             |
-| `style`     | Formatting changes without affecting logic           | `style: format API route handlers`       |
-| `perf`      | Improve performance                                  | `perf: optimize database queries`        |
-
-### Examples
-
-```bash
-git commit -m "feat: add user registration endpoint"
-git commit -m "fix: handle invalid login credentials"
-git commit -m "refactor: simplify authentication service"
-git commit -m "docs: update installation instructions"
-```
-
-### Best Practices
-
-- Keep commit messages concise and descriptive.
-- Use the imperative mood, such as `add`, `fix`, or `update`.
-- Keep each commit focused on a logical change.
-- Avoid vague messages such as `update`, `changes`, or `final code`.
+**Note:** Follow your team's branch protection rules and contribution guidelines.
 
 ---
 
@@ -359,11 +369,80 @@ Create and switch to a new branch using:
 git checkout -b feature/user-profile
 ```
 
-## For everyday branch operations, `git switch` is generally clearer because it separates branch switching from other checkout operations.
+For everyday branch operations, `git switch` is generally clearer because it separates branch switching from other checkout operations.
 
-## 10. Handle Uncommitted Changes
+---
+
+## 10. Merge a Feature Branch into Main
+
+After completing your work on a feature branch, commit and push the latest changes before merging. In a team project, follow your team's Pull Request and code-review process if direct merges to `main` are not allowed.
+
+### Step 1: Commit and Push Your Latest Changes
+
+Check your working tree and commit any changes you want to include in the merge.
+
+```bash
+git status
+git add .
+git commit -m "feat: complete async PostgreSQL authentication"
+git push
+```
+
+If you have no new changes to commit, skip the `git add` and `git commit` commands.
+
+If this is the first push of the feature branch, set its upstream:
+
+```bash
+git push -u origin feature/async-postgres-auth
+```
+
+### Step 2: Switch to the Main Branch
+
+```bash
+git switch main
+```
+
+### Step 3: Update the Local Main Branch
+
+```bash
+git pull origin main
+```
+
+This updates your local `main` branch with the latest changes from the remote repository before you merge.
+
+### Step 4: Merge the Feature Branch into Main
+
+```bash
+git merge feature/async-postgres-auth
+```
+
+Replace `feature/async-postgres-auth` with the actual name of your feature branch.
+
+If Git reports merge conflicts, resolve them in the affected files, stage the resolved files, and complete the merge as Git instructs. Review and test the result before pushing.
+
+### Step 5: Push Main to the Remote Repository
+
+```bash
+git push origin main
+```
+
+This pushes the merge and the integrated feature changes to the remote `main` branch.
+
+### Verify the Merge
+
+```bash
+git status
+git log --oneline --graph --decorate -10
+```
+
+**Important:** A repository may protect `main` and block direct pushes. For team projects, open a Pull Request and merge after required reviews and checks pass. Push directly to `main` only when your project's workflow permits it.
+
+---
+
+## 11. Handle Uncommitted Changes
 
 Git may prevent you from switching branches when your local changes would be overwritten.
+
 You can handle this in two common ways.
 
 ### Option A: Commit Your Work
@@ -386,6 +465,7 @@ git stash push -u -m "temporary work"
 ```
 
 The `-u` flag includes untracked files.
+
 Now switch branches:
 
 ```bash
@@ -406,16 +486,18 @@ git stash pop
 
 ### Useful Stash Commands
 
-| Command            | Purpose                                                              |
-| ------------------ | -------------------------------------------------------------------- |
-| `git stash list`   | List saved stashes                                                   |
-| `git stash apply`  | Restore a stash without removing it from the list                    |
-| `git stash pop`    | Restore a stash and remove it from the list if successfully applied  |
-| `git stash drop`   | Remove a stash entry                                                 |
+| Command           | Purpose                                                             |
+| ----------------- | ------------------------------------------------------------------- |
+| `git stash list`  | List saved stashes                                                  |
+| `git stash apply` | Restore a stash without removing it from the list                   |
+| `git stash pop`   | Restore a stash and remove it from the list if successfully applied |
+| `git stash drop`  | Remove a stash entry                                                |
 
-## **Tip:** Resolve any conflicts carefully if they occur while restoring a stash.
+**Tip:** Resolve any conflicts carefully if they occur while restoring a stash.
 
-## 11. Check Merged and Unmerged Branches
+---
+
+## 12. Check Merged and Unmerged Branches
 
 Before deleting a local branch, check whether its changes have been merged into your target branch.
 
@@ -440,11 +522,12 @@ git branch --no-merged main
 ```
 
 These branches have commits that are not reachable from `main`.
+
 **Important:** An unmerged branch may contain valuable work. Review it before deleting it. A branch not listed as merged is not necessarily safe to discard.
 
 ---
 
-## 12. Delete Branches
+## 13. Delete Branches
 
 Once a feature branch is no longer needed, you can clean it up locally and remotely.
 
@@ -484,9 +567,11 @@ This deletes the branch from the remote repository, assuming you have permission
 git fetch --prune
 ```
 
-## This removes local remote-tracking references for branches that no longer exist on the remote. It does not delete your local branches.
+This removes local remote-tracking references for branches that no longer exist on the remote. It does not delete your local branches.
 
-## 13. Create a Pull Request
+---
+
+## 14. Create a Pull Request
 
 A Pull Request (PR) allows developers to propose changes, review code, discuss implementation details, and merge approved changes into a target branch.
 
@@ -499,9 +584,13 @@ git push -u origin <branch-name>
 ```
 
 **Step 2:** Open your repository on GitHub.
+
 **Step 3:** Navigate to the **Pull requests** tab and select **New pull request**, or use GitHub's suggested **Compare & pull request** option if it appears.
+
 **Step 4:** Select the correct base branch (usually `main` or `develop`) and your feature branch.
+
 **Step 5:** Add a descriptive title and summary, review the changes, and click **Create pull request**.
+
 **Step 6:** Respond to review comments, update your branch when needed, and wait for required approvals and checks.
 
 ### Method 2: Create a PR Using GitHub CLI
@@ -545,42 +634,19 @@ gh pr create --web
 ```
 
 This opens the Pull Request creation page in your browser.
+
 Alternatively, create a PR from the terminal:
 
 ```bash
 gh pr create --base main --head feature/user-profile --title "feat: add user profile" --body "Adds user profile functionality."
 ```
 
-## Replace the branch names, title, and description with your actual changes.
+Replace the branch names, title, and description with your actual changes.
 
-## 14. Merge a Feature Branch into Main
+---
 
-After completing your feature branch, push the latest code to the remote repository before merging. In a team environment, follow your team's Pull Request and code-review process instead of merging directly when required.
-Step 1: Commit and Push Your Latest Changes
-Make sure your work is committed and pushed to your current feature branch.
-git status
-git add .
-git commit -m "feat: complete async PostgreSQL authentication"
-git push
-If this is the first time you are pushing the branch, set its upstream:
-git push -u origin feature/async-postgres-auth
-If there are no new changes to commit, skip the commit command.
-Step 2: Switch to the Main Branch
-git switch main
-Step 3: Update the Local Main Branch
-git pull origin main
-This ensures your local main branch includes the latest remote changes before you merge.
-Step 4: Merge the Feature Branch into Main
-git merge feature/async-postgres-auth
-Replace feature/async-postgres-auth with the name of your feature branch.
-If Git reports merge conflicts, resolve them in the affected files, then stage and commit the resolutions before continuing.
-Step 5: Push Main to the Remote Repository
-git push origin main
-This pushes the merge commit and the merged feature changes to the remote main branch.
-Verify the Merge
-git status
-git log --oneline --graph --decorate -10
-Important: Directly pushing to main may be blocked by branch protection rules. In team projects, open a Pull Request and merge it after the required reviews and checks pass. Only merge and push directly when your project workflow permits it. 15. Check Repository Status
+## 15. Check Repository Status
+
 The `git status` command provides a snapshot of your current working tree and staging area.
 
 ```bash
@@ -592,23 +658,32 @@ It helps you understand what has changed before committing, switching branches, 
 ### What Does `git status` Show?
 
 **1. Current Branch**
+
 Shows the branch you are currently working on.
+
 **2. Untracked Files**
+
 New files Git has not started tracking.
+
 **3. Changes Not Staged for Commit**
+
 Tracked files that have been modified but whose latest changes have not been staged.
+
 **4. Changes to Be Committed**
+
 Changes staged with `git add` and ready for the next commit.
+
 **5. Branch Synchronization**
+
 When upstream tracking is configured and the relevant information is available, Git can indicate whether your local branch is ahead of or behind its upstream branch.
 
 ### The Three Main File States
 
-| State      | Meaning                                   | Next Step                  |
-| ---------- | ----------------------------------------- | -------------------------- |
-| Untracked  | Git is not tracking the new file yet      | `git add <file>`           |
-| Modified   | A tracked file has been changed           | `git add <file>`           |
-| Staged     | Changes are prepared for the next commit  | `git commit -m "message"`  |
+| State     | Meaning                                  | Next Step                 |
+| --------- | ---------------------------------------- | ------------------------- |
+| Untracked | Git is not tracking the new file yet     | `git add <file>`          |
+| Modified  | A tracked file has been changed          | `git add <file>`          |
+| Staged    | Changes are prepared for the next commit | `git commit -m "message"` |
 
 ### Recommended Habit
 
@@ -619,31 +694,32 @@ Run `git status` frequently, especially:
 - Before switching branches.
 - Before pushing changes.
 - After resolving merge conflicts.
-  `git status` is a read-only command. It does not modify or delete your project files.
+
+`git status` is a read-only command. It does not modify or delete your project files.
 
 ---
 
 ## 16. Quick Reference
 
-| Command                    | Purpose                                                    |
-| -------------------------- | ---------------------------------------------------------- |
-| `git init`                 | Initialize a repository                                    |
-| `git clone <url>`          | Clone an existing repository                               |
-| `git status`               | Check the working tree                                     |
-| `git add .`                | Stage changes in the current directory and subdirectories  |
-| `git commit -m "message"`  | Create a commit                                            |
-| `git push`                 | Push commits to the configured upstream                    |
-| `git pull`                 | Fetch and integrate upstream changes                       |
-| `git fetch`                | Download remote updates without integrating them           |
-| `git branch`               | List local branches                                        |
-| `git switch <branch>`      | Switch branches                                            |
-| `git switch -c <branch>`   | Create and switch to a branch                              |
-| `git log --oneline`        | View a compact commit history                              |
-| `git diff`                 | Review unstaged changes                                    |
-| `git diff --staged`        | Review staged changes                                      |
-| `git stash`                | Temporarily save local changes                             |
-| `git remote -v`            | List remote URLs                                           |
-| `git fetch --prune`        | Remove stale remote-tracking references                    |
+| Command                   | Purpose                                                   |
+| ------------------------- | --------------------------------------------------------- |
+| `git init`                | Initialize a repository                                   |
+| `git clone <url>`         | Clone an existing repository                              |
+| `git status`              | Check the working tree                                    |
+| `git add .`               | Stage changes in the current directory and subdirectories |
+| `git commit -m "message"` | Create a commit                                           |
+| `git push`                | Push commits to the configured upstream                   |
+| `git pull`                | Fetch and integrate upstream changes                      |
+| `git fetch`               | Download remote updates without integrating them          |
+| `git branch`              | List local branches                                       |
+| `git switch <branch>`     | Switch branches                                           |
+| `git switch -c <branch>`  | Create and switch to a branch                             |
+| `git log --oneline`       | View a compact commit history                             |
+| `git diff`                | Review unstaged changes                                   |
+| `git diff --staged`       | Review staged changes                                     |
+| `git stash`               | Temporarily save local changes                            |
+| `git remote -v`           | List remote URLs                                          |
+| `git fetch --prune`       | Remove stale remote-tracking references                   |
 
 ---
 
